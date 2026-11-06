@@ -1,0 +1,13 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "method": "dockerfile",
+    "port": 4000
+  },
+  "env": {
+    "required": []
+  },
+  "name": "whisper-staging",
+  "run": {},
+  "schemaVersion": 1
+}
