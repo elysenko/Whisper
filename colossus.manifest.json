@@ -9,5 +9,11 @@
   },
   "name": "whisper-staging",
   "run": {},
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "services": [
+    {
+      "source": "cluster",
+      "type": "mongodb"
+    }
+  ]
 }
