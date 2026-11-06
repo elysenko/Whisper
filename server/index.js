@@ -7,6 +7,8 @@ const server = http.createServer(app);
 const HTTP_PORT = process.env.PORT || 4000;
 
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 const mongoose = require('mongoose');
 
 const { Server } = require('socket.io');
@@ -55,6 +57,15 @@ app.use(express.json());
 app.use(cors());
 app.use(UserRouter);
 app.use('/code', CodeRouter);
+
+// In production the built client (vite build) is served from this same origin,
+// so the browser's API and socket.io calls need no separate URL.
+const CLIENT_DIST = process.env.CLIENT_DIST || path.join(__dirname, '../client/dist');
+if (fs.existsSync(CLIENT_DIST)) {
+  app.use(express.static(CLIENT_DIST));
+  // SPA fallback: any other GET returns index.html for react-router.
+  app.get('*', (req, res) => res.sendFile(path.join(CLIENT_DIST, 'index.html')));
+}
 
 // triggers when a user is connected to a socket
 io.on('connection', (socket) => {
